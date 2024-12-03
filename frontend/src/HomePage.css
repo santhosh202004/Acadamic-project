@@ -1,0 +1,346 @@
+/* Reset default styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and font styles */
+body {
+  font-family: 'Arial', 'Times New Roman';
+  background-color: #fffff0; /* Ivory background color */
+  color: #333;
+}
+
+/* Button styles */
+.auth-btn {
+  background-color: #ff5733; /* Customize button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+  background-color: #e04f1e; /* Darker color on hover */
+}
+
+/* About section font style */
+.abt {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+}
+
+/* Header styles */
+header {
+  background-color: rgba(139, 69, 19, 0.954); /* Brown color with slight transparency */
+  padding: 20px;
+  text-align: center;
+  position: fixed; /* Fixes the header to the top */
+  width: 100%; /* Ensures the header spans the entire width */
+  height: 10%;
+  top: 0; /* Aligns it to the top of the page */
+  left: 0; /* Aligns it to the left edge of the page */
+  z-index: 1000; /* Ensures the header stays above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for better separation */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 20px; /* Space between the list items */
+}
+
+nav ul li {
+  margin: 0;
+}
+
+/* Navigation links */
+nav ul li a {
+  text-decoration: none;
+  color: #fff; /* White text color for better contrast */
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 15px;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+  background-color: transparent; /* Default background color */
+}
+
+nav ul li a:hover {
+  background-color: #a0522d; /* Slightly lighter brown for hover effect */
+  color: #fff; /* Maintain white text color on hover */
+}
+
+/* Dropdown and sub-dropdown menus */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f4a460; /* Light brown for dropdown menu */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid #ddd;
+}
+
+.dropdown-content a:hover {
+  background-color: #d2b48c; /* Even lighter brown on hover */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.sub-dropdown-content {
+  display: none;
+  position: absolute;
+  left: 100%; /* Position the sub-dropdown to the right of the main dropdown */
+  top: 0;
+  background-color: #f4a460; /* Light brown for sub-dropdown menu */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.sub-dropdown:hover .sub-dropdown-content {
+  display: block;
+}
+
+/* Optional: Styling for the arrow */
+.arrow {
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+/* Logo styles */
+.logo {
+  width: 50px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px; /* Space between logo and navigation */
+}
+
+/* Hero Section styles */
+.hero {
+  color: rgb(63, 62, 62);
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero h2 {
+  font-size: 2.5em;
+  animation: fadeInUp 2s ease-in-out;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  margin-top: 20px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin: 20px 0;
+}
+
+.hero button {
+  background-color: #000000ac;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Section styles */
+section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h3.section-heading {
+  margin-bottom: 30px;
+  color: #000000;
+  background-color: #fdfbfb71;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.8em;
+  border: 2px solid #333; /* Add border */
+}
+
+/* Featured Menu styles */
+.img-v {
+  display: flex;
+  justify-content: center; /* Center the images */
+  flex-wrap: wrap; /* Wrap images if they overflow */
+  gap: 20px; /* Space between images */
+  padding: 10px;
+  animation: fadeInUp 1s ease-in-out; /* Add animation */
+}
+
+.product-image {
+  width: 400px;
+  height: 340px;
+  flex-shrink: 0;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  border: 3px solid #ddd; /* Add border */
+}
+
+.product-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: #080808ba; /* Change border color on hover */
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Testimonials styles */
+.testimonials {
+  margin: 20px 0;
+}
+
+blockquote {
+  font-style: italic;
+  margin: 15px 0;
+  color: #555;
+}
+
+/* Footer styles */
+/* Footer styles */
+/* Footer styles */
+footer {
+  background-color: #333; /* Dark gray background color */
+  color: #f5f5f5; /* Light gray text color */
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation in footer */
+footer nav ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+footer nav ul li {
+  margin: 0 10px;
+}
+
+footer a {
+  color: #ff5733; /* Accent color for links */
+  text-decoration: none; /* Remove underline */
+}
+
+footer a:hover {
+  color: #ff4500; /* Slightly darker accent color on hover */
+}
+
+/* Form styles in footer */
+footer form {
+  margin-top: 10px;
+}
+
+footer input[type="email"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+footer button {
+  background-color: #ff5733; /* Button background color */
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/* Background and container styles */
+.f-bg {
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+}
+
+button {
+  border-radius: 10px;
+  background-color: antiquewhite;
+}
+
+.img-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 40px; /* Space between images */
+  padding: 10px;
+  scrollbar-width: thin; /* For Firefox */
+}
+
+.img-container::-webkit-scrollbar {
+  height: 10px;
+}
+
+.img-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar thumb color */
+  border-radius: 10px;
+}
+
+.img-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar thumb hover color */
+}
+
+.img-v {
+  display: flex;
+  overflow-x: auto;
+  gap: 40px; /* Space between images */
+  padding: 10px;
+  scrollbar-width: thin; /* For Firefox */
+}
+
+.img-v::-webkit-scrollbar {
+  height: 10px;
+}
+
+.img-v::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar thumb color */
+  border-radius: 10px;
+}
+
+.img-v::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar thumb hover color */
+}

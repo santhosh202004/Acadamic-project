@@ -1,0 +1,277 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/agriculture', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('Failed to connect to MongoDB:', err.message);
+});
+
+// Enable Mongoose debugging
+mongoose.set('debug', true);
+
+// Register Schema and Model
+const RegisterSchema = new mongoose.Schema({
+  name: String,
+  email: { type: String, unique: true, required: true },
+  password: String,
+  isAdmin: { type: Boolean, default: false },
+});
+
+const RegisterModel = mongoose.model('registers', RegisterSchema);
+
+// Vehicle Schema and Model
+const vehicleSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
+const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+
+// Implement Schema and Model
+const implementSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
+const Implement = mongoose.model('Implement', implementSchema);
+
+// Booking Schema and Model
+const BookingSchema = new mongoose.Schema({
+  name: String,
+  date: Date,
+  email: String,
+  phone: String,
+  vehicle: String,
+  implement: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'registers' },
+  status: String,
+});
+
+const BookingModel = mongoose.model('bookings', BookingSchema);
+
+// Payment Schema and Model (Removed)
+const PaymentSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'registers', required: true },
+  amount: { type: Number, required: true },
+  date: { type: Date, required: true },
+  method: { type: String, required: true },
+});
+
+// Charge Schema and Model (New)
+const ChargeSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'registers', required: true },
+  amount: { type: Number, required: true },
+  date: { type: Date, required: true },
+  method: { type: String, required: true },
+});
+
+const ChargeModel = mongoose.model('charges', ChargeSchema);
+
+// Register route
+app.post('/register', async (req, res) => {
+  try {
+    const { name, email, password, isAdmin } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new RegisterModel({
+      name,
+      email,
+      password: hashedPassword,
+      isAdmin: isAdmin || false,
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    console.error('Error during registration:', err.message);
+    res.status(500).json({ error: 'Error during registration', details: err.message });
+  }
+});
+
+// Login route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await RegisterModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      res.json({ message: 'success', isAdmin: user.isAdmin });
+    } else {
+      res.status(401).json({ message: 'Incorrect password' });
+    }
+  } catch (err) {
+    console.error('Error during login:', err.message);
+    res.status(500).json({ error: 'Error during login', details: err.message });
+  }
+});
+
+// Route to create a new booking
+app.post('/book', async (req, res) => {
+  try {
+    const { name, date, email, phone, vehicle, implement, userId } = req.body;
+
+    const existingBooking = await BookingModel.findOne({ date, user: userId });
+
+    if (existingBooking) {
+      return res.status(409).json({ error: 'Booking already registered on the same date' });
+    }
+
+    const newBooking = new BookingModel({
+      name,
+      date,
+      email,
+      phone,
+      vehicle,
+      implement,
+      user: userId,
+      status: 'Pending',
+    });
+
+    await newBooking.save();
+    res.status(201).json({ message: 'Booking created successfully', booking: newBooking });
+  } catch (err) {
+    console.error('Error during booking creation:', err.message);
+    res.status(500).json({ error: 'Error during booking creation', details: err.message });
+  }
+});
+
+// Route to create a new vehicle
+app.post('/vehicles', async (req, res) => {
+  const { name, price } = req.body;
+
+  try {
+    const newVehicle = new Vehicle({ name, price });
+    await newVehicle.save();
+    res.status(201).json({ message: 'Vehicle added successfully', vehicle: newVehicle });
+  } catch (err) {
+    console.error('Error adding vehicle:', err.message);
+    res.status(500).json({ error: 'Error adding vehicle', details: err.message });
+  }
+});
+
+// Route to fetch all vehicles
+app.get('/vehicles', async (req, res) => {
+  try {
+    const vehicles = await Vehicle.find();
+    res.json(vehicles);
+  } catch (err) {
+    console.error('Error fetching vehicles:', err.message);
+    res.status(500).json({ error: 'Error fetching vehicles', details: err.message });
+  }
+});
+
+// Route to fetch all users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await RegisterModel.find();
+    res.json(users);
+  } catch (err) {
+    console.error('Error fetching users:', err.message);
+    res.status(500).json({ error: 'Error fetching users', details: err.message });
+  }
+});
+
+// Route to fetch all bookings
+app.get('/bookings', async (req, res) => {
+  try {
+    const bookings = await BookingModel.find().populate('user', 'name');
+    res.json(bookings);
+  } catch (err) {
+    console.error('Error fetching bookings:', err.message);
+    res.status(500).json({ error: 'Error fetching bookings', details: err.message });
+  }
+});
+
+// Charge route (New)
+app.post('/charges', async (req, res) => {
+  const { userId, amount, date, method } = req.body;
+
+  try {
+    // Ensure all fields are present
+    if (!userId || !amount || !date || !method) {
+      console.log('Missing required fields:', { userId, amount, date, method });
+      return res.status(400).json({ message: 'All charge fields are required' });
+    }
+
+    // Check if userId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid userId' });
+    }
+
+    // Log the charge data for debugging
+    console.log('Storing charge:', { userId, amount, date, method });
+
+    // Create a new charge entry
+    const newCharge = new ChargeModel({
+      userId,
+      amount,
+      date,
+      method,
+    });
+
+    await newCharge.save();
+    console.log('Charge stored successfully:', newCharge);
+    res.status(201).json({ message: 'Charge stored successfully', charge: newCharge });
+  } catch (err) {
+    console.error('Error storing charge:', err.message);
+    res.status(500).json({ error: 'Error storing charge', details: err.message });
+  }
+});
+
+// Route to fetch all charge details
+app.get('/charges', async (req, res) => {
+  try {
+    const charges = await ChargeModel.find().populate('userId', 'name');
+    res.json(charges);
+  } catch (err) {
+    console.error('Error fetching charges:', err.message);
+    res.status(500).json({ error: 'Error fetching charges', details: err.message });
+  }
+});
+
+// Route to update a booking
+app.put('/bookings/:id', async (req, res) => {
+  const { name, date, email, phone, vehicle, implement, status } = req.body;
+
+  try {
+    const updatedBooking = await BookingModel.findByIdAndUpdate(
+      req.params.id,
+      { name, date, email, phone, vehicle, implement, status },
+      { new: true }
+    );
+
+    if (!updatedBooking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    res.json(updatedBooking);
+  } catch (err) {
+    console.error('Error updating booking:', err.message);
+    res.status(500).json({ error: 'Error updating booking', details: err.message });
+  }
+});
+
+// Server setup
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

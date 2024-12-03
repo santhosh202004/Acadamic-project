@@ -1,0 +1,125 @@
+/* /* Wrapper around the baler details and video */
+.baler-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f7f7f7;
+}
+
+/* The container for the baler image and text */
+.baler-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 30px;
+}
+
+/* Styling for the baler image */
+.baler-image {
+  width: 50%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for the text content */
+.baler-text {
+  max-width: 45%;
+  padding-left: 20px;
+}
+
+.baler-text h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.2;
+}
+
+.baler-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  font-family: 'Georgia', serif;
+}
+
+/* Button styling */
+.book-now-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-now-btn:hover {
+  background-color: #218838;
+}
+
+/* Styling for the video section */
+.baler-video {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin-top: 20px; /* Add some space above the video section */
+}
+
+.video-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer; /* Cursor changes to pointer */
+  transition: color 0.3s ease;
+}
+
+.video-title:hover {
+  color: #555; /* Change color when hovering over the heading */
+}
+
+.video-container {
+  width: 100%;
+  max-width: 100%; /* Full width for the video */
+}
+
+.video-player {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .baler-details-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .baler-image, .baler-text {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .baler-text {
+    padding-left: 0;
+    margin-top: 20px;
+  }
+
+  .baler-video {
+    max-width: 100%;
+  }
+}

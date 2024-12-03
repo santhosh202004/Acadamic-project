@@ -1,0 +1,46 @@
+/* Tractor1.css */
+.tractor1-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tractor-title {
+    font-size: 2.5rem; /* Larger font size for the title */
+    color: #333; /* Dark color for the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.tractor-image {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Rounded corners for the image */
+    margin-bottom: 20px; /* Space below the image */
+}
+
+.tractor-description {
+    font-size: 1.2rem; /* Slightly larger font for the description */
+    color: #555; /* Lighter color for the description */
+    line-height: 1.6; /* Increased line height for readability */
+    margin: 0 10px; /* Add side margins */
+}
+/* Tractor1.css */
+
+.book-now-button {
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Change cursor on hover */
+    margin-top: 20px; /* Space above the button */
+}
+
+.book-now-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
